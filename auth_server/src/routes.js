@@ -23,14 +23,16 @@ router.get('/:appId/authenticate', function*(next) {
   const email = this.query.email;
   console.log(email)
   const appId = this.params.appId;
+  console.log('app:' + appId);
   const privateKey = (yield db.apps.findOne({clientId : appId})).privateKey;
+  console.log(privateKey);
 
   const scriptTemplate = (message) => `<script>window.opener.postMessage('${message}', '*'); window.close();</script>`;
   const token = jwt.sign({  email: email }, privateKey, {
     iss: 'user',
     expiresIn: '2 days'
   });
-
+  console.log(token);
   this.body = scriptTemplate(JSON.stringify({jwt: `${token}`, message: '', success: true}));
   this.type = 'html';
 });

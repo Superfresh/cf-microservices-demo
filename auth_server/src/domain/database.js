@@ -5,6 +5,7 @@ const debug = require('debug')('auth:database');
 var co = require('co');
 
 const db = monk(mongoUrl);
+console.log('db:' + mongoUrl);
 const apps = coMonk(db.get('apps'));
 
 co(function*(){
@@ -18,6 +19,7 @@ co(function*(){
 	}
 	catch(e){
 		debug(e);
+		console.log(e);
 		console.error(e)
 	}
 });
